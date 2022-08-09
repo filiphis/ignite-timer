@@ -1,23 +1,36 @@
-// import { defaultTheme } from './../@types/styled.d'
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, css } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
   }
 
-  body {
-    background-color: ${(props) => props.theme['gray-900']};
-    color: ${(props) => props.theme['gray-100']};
+  html {
+    font-size: 62.5%;
   }
 
-  body, input, textarea, button {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
+  html, body {
+    height: 100%;
   }
 
-
+  ${({ theme }) => css`
+    body {
+      background-color: ${theme.colors['gray-900']};
+      color: ${theme.colors['gray-100']};
+    }
+    body,
+    input,
+    textarea,
+    button {
+      font-family: ${theme.font.family.roboto};
+      font-size: ${theme.font.sizes.medium};
+      font-weight: ${theme.font.normal};
+      font-display: swap;
+    }
+  `}
 `

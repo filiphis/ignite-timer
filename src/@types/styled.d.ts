@@ -1,9 +1,9 @@
-import { redTheme } from './../styles/themes/redTheme'
-import 'styled-components'
-import { defaultTheme } from '../styles/themes/default'
+// import 'styled-components'
+import defaultTheme from '../styles/themes/default'
 
-type ThemeType = typeof defaultTheme
+type Theme = typeof defaultTheme
 
 declare module 'styled-components' {
-  export interface DefaultTheme extends ThemeType, ThemeType {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface DefaultTheme extends Theme {}
 }
