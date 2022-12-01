@@ -5,10 +5,11 @@ export default {
   colors: {
     white: '#fff',
     black: '#000',
+    transparent: 'transparent',
 
     'gray-100': '#E1E1E6',
     'gray-300': '#C4C4CC',
-    'gray-400': '#8D8D99',
+    'gray-400': '#7C7C8A',
     'gray-500': '#7C7C84',
     'gray-600': '#323238',
     'gray-700': '#29292E',
@@ -38,7 +39,8 @@ export default {
       small: '1.4rem',
       medium: '1.6rem',
       large: '1.8rem',
-      xlarge: '2.4rem'
+      xlarge: '2.4rem',
+      countdown: '16rem'
     }
   },
   border: {
@@ -46,6 +48,10 @@ export default {
   },
 
   spacings: {
+    xxsmall: '0.4rem',
+    xsmall: '0.8rem',
+    small: '1.6rem',
+    lowMedium: '3.2rem',
     medium: '5.6rem'
   },
 

@@ -1,29 +1,91 @@
-import { Play } from 'phosphor-react'
-import { TimerContainer, Wrapper } from './styles'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as zod from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { HandPalm, Play } from 'phosphor-react'
+import {
+  InterruptCycleButton,
+  StartCycleButton,
+  Wrapper
+  // TimerContainer,
+} from './styles'
+import { useContext } from 'react'
+import { NewCycleForm } from './NewCycleForm'
+import { Countdown } from './Countdown'
+import { CyclesContext } from '../../contexts/CyclesContext'
+
+const newCycleFormValidationSchema = zod.object({
+  task: zod
+    .string()
+    .min(1, 'Digite o nome de sua tarefa!')
+    .max(150, 'A quantidade maxima de caracteres é de 150!'),
+  minutes: zod
+    .number()
+    .min(1, 'O valor mínimo aceito é de 5 minutos')
+    .max(60, 'Tempo máximo de 60 minutos!')
+})
+
+type newCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
+
+type Cycle = {
+  id: string
+  task: string
+  minutes: number
+  startDate: Date
+  interruptDate?: Date
+  finishedDate?: Date
+}
 
 export function Timer() {
+  const { createNewCycle, interruptCurrentCycle, activeCycle } =
+    useContext(CyclesContext)
+
+  const newCycleForm = useForm({
+    resolver: zodResolver(newCycleFormValidationSchema)
+  })
+
+  const { watch, handleSubmit, reset } = newCycleForm
+
+  function handleCreateNewCycle(data: newCycleFormData) {
+    createNewCycle(data)
+    reset()
+  }
+
+  // console.log(formState.errors)
+  // console.log(cycles)
+
+  const task = watch('task')
+  const minutesInput = watch('minutes')
+  const hasInputTaskAndMinuteValue = task && minutesInput
+  console.log('activeCycle:', activeCycle)
+
   return (
     <Wrapper>
-      <TimerContainer>
-        <header>
-          <span>Vou trabalhar em </span>
-          <input type="text" placeholder="Dê um nome para o seu projeto" />
-          <span> durante </span>
-          <input type="number" min={0} />
-          <span> minutos</span>
-        </header>
-        <div className="timer">
-          <span>0</span>
-          <span>0</span>
-          <span>:</span>
-          <span>0</span>
-          <span>0</span>
-        </div>
-        <button>
-          <Play size={24} />
-          Começar
-        </button>
-      </TimerContainer>
+      <form onSubmit={handleSubmit(handleCreateNewCycle)} action="">
+        {/*
+         FormProvider é o provider da biblioteca React Hook Form.
+         Ele transmite as informações referentes ao formulário
+        */}
+        <FormProvider {...newCycleForm}>
+          <NewCycleForm />
+        </FormProvider>
+        <Countdown />
+        {/* <TimerContainer> */}
+        {!activeCycle ? (
+          <StartCycleButton
+            type="submit"
+            disabled={!hasInputTaskAndMinuteValue}
+          >
+            <Play size={24} />
+            Começar
+          </StartCycleButton>
+        ) : (
+          <InterruptCycleButton type="button" onClick={interruptCurrentCycle}>
+            <HandPalm size={24} />
+            Interromper
+          </InterruptCycleButton>
+        )}
+        {/* </TimerContainer> */}
+      </form>
     </Wrapper>
   )
 }

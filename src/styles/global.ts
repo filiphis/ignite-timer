@@ -8,13 +8,16 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 
   html {
     font-size: 62.5%;
   }
 
-  html, body {
+  html, body, #__next {
     height: 100%;
   }
 
