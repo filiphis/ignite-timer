@@ -13,6 +13,10 @@ export function Countdown() {
     clearActiveCycleId
   } = useContext(CyclesContext)
 
+  if (!activeCycle?.minutes) {
+    throw new Error('No Active Cycle')
+  }
+
   const totalSeconds = activeCycleId ? activeCycle?.minutes * 60 : 0
   console.log('activeCycle no Countdown:', activeCycle)
 
