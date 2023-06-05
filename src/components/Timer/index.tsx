@@ -1,4 +1,4 @@
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { HandPalm, Play } from 'phosphor-react'
@@ -45,12 +45,7 @@ export function Timer() {
 
   const { watch, handleSubmit, reset } = newCycleForm
 
-  // function handleCreateNewCycle(data: newCycleFormData) {
-  //   createNewCycle(data)
-  //   reset()
-  // }
-
-  const handleCreateNewCycle: SubmitHandler<newCycleFormData> = (data) => {
+  function handleCreateNewCycle(data: newCycleFormData) {
     createNewCycle(data)
     reset()
   }
@@ -65,7 +60,7 @@ export function Timer() {
 
   return (
     <Wrapper>
-      <form onSubmit={handleSubmit(handleCreateNewCycle)}>
+      <form onSubmit={handleSubmit(handleCreateNewCycle)} action="">
         {/*
          FormProvider é o provider da biblioteca React Hook Form.
          Ele transmite as informações referentes ao formulário
